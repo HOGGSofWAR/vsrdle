@@ -1,0 +1,15 @@
+{
+  "name": "vsrdle",
+  "version": "1.0.0",
+  "description": "competitive word game",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "nikki hogg",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "express": "^4.18.1"
+  }
+}
