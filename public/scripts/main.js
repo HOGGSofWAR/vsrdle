@@ -618,8 +618,10 @@ const showReadyButtons = () => {
 };
 
 gameCodeCopy.addEventListener('click', () => {
-    const code = gameCodeOutput.value;
+    gameCodeOutput.select();
+    document.execCommand('copy');
 
+    const code = gameCodeOutput.value;
     navigator.clipboard.writeText(code);
 })
 

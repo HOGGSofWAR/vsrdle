@@ -21,10 +21,6 @@
         width: 120px;
         padding: 0;
 
-        &--active {
-            background: green;
-        }
-
         &--hidden {
             display: none;
         }
@@ -40,6 +36,16 @@
             &:hover {
                 border: 0;
                 background: grey;
+                cursor: default;
+            }
+        }
+
+        &--active {
+            background: green;
+
+            &:hover {
+                background: green;
+                border: none;
                 cursor: default;
             }
         }

@@ -1,7 +1,4 @@
 .timer {
-    background: $white;
-    padding: 10px 15px;
-
     @include tablet() {
         margin-bottom: 10px;
     }
@@ -13,5 +10,9 @@
     &__time {
         @include p();
         margin: 0;
+        background: $white;
+        padding: 10px 15px;
+        min-width: 70px;
+        text-align: center;
     }
 }

@@ -49,21 +49,37 @@
     
         @include mobile() {
             margin-right: 20px;
-            width: 100px;
-            width: 60%;
+            // width: 100px;
+            // width: 60%;
+
+        }
+
+        @media (max-width: 580px) {
+            
+        }
+
+        @media (max-width: 470px) {
+            width: 200px;        
+        }
+
+        @media (max-width: 350px) {
+            width: 170px
         }
 
     }
 
     &--two {
-        @include tablet() {
-            // width: 100px;
-            width: 35%;
+        @media (max-width: 740px) {
+            width: 200px;
+            // height: 230px;
         }
 
-        @include mobile() {
-            // width: 100px;
-            width: 35%;
+        @media (max-width: 580px) {
+            width: 100px;
+        }
+
+        @media (max-width: 470px) {
+            
         }
     }
 
