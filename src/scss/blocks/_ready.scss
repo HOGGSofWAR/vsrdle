@@ -30,6 +30,8 @@
                 background: darkgrey;
                 border: darkgrey;
             }
+
+            animation: glow 1s ease-in-out infinite alternate;
         }
 
         &--two {
@@ -50,5 +52,14 @@
             }
         }
     }
+
+    @keyframes glow {
+        from {
+          box-shadow: 0px 0px 5px $white;
+        }
+        to {
+            box-shadow: 0px 0px 40px $white;
+        }
+      }
 
 }

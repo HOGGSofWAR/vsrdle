@@ -35,7 +35,7 @@ input {
     border-radius: 0;
 }
 
-.lost-connection {
+.lost-connection, .player-disconnected {
     position: absolute;
     top: 0;
     left: 0;
@@ -48,6 +48,8 @@ input {
 
     display: none;
 
+    z-index: 2;
+
     p {
         background-color: $white;
         @include p();
@@ -56,7 +58,28 @@ input {
         padding: 10px;
     }
 
+    small {
+        @include p();
+        font-size: 14px;
+        line-height: 16px;
+        text-align: center;
+    }
+
     &--visible {
         display: flex;
+    }
+
+    &__inner {
+        background-color: $white;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__button {
+        @include button();
+
+        &--hidden {
+            display: none;
+        }
     }
 }

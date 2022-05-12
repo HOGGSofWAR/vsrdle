@@ -83,7 +83,7 @@ input {
   border-radius: 0;
 }
 
-.lost-connection {
+.lost-connection, .player-disconnected {
   position: absolute;
   top: 0;
   left: 0;
@@ -97,9 +97,10 @@ input {
       -ms-flex-pack: center;
           justify-content: center;
   display: none;
+  z-index: 2;
 }
 
-.lost-connection p {
+.lost-connection p, .player-disconnected p {
   background-color: #fff;
   font-family: "Quicksand", sans-serif;
   font-size: 16px;
@@ -112,10 +113,74 @@ input {
   padding: 10px;
 }
 
-.lost-connection--visible {
+.lost-connection small, .player-disconnected small {
+  font-family: "Quicksand", sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
+  color: #BA8B70;
+  letter-spacing: 0.02em;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: center;
+}
+
+.lost-connection--visible, .player-disconnected--visible {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+}
+
+.lost-connection__inner, .player-disconnected__inner {
+  background-color: #fff;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.lost-connection__button, .player-disconnected__button {
+  border: 1px solid #a1c0ba;
+  background: #a1c0ba;
+  line-height: 40px;
+  font-size: 16px;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  display: inline-block;
+  color: #fff;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0 30px;
+  text-align: center;
+  cursor: pointer;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
+.lost-connection__button:hover, .player-disconnected__button:hover {
+  border: 1px solid #6f8e88;
+  background: #6f8e88;
+}
+
+@media (min-width: 599px) {
+  .lost-connection__button, .player-disconnected__button {
+    min-width: 230px;
+  }
+}
+
+@media (max-width: 600px) {
+  .lost-connection__button, .player-disconnected__button {
+    width: 100%;
+    padding: 0;
+  }
+}
+
+.lost-connection__button--hidden, .player-disconnected__button--hidden {
+  display: none;
 }
 
 .countdown {
@@ -1112,6 +1177,11 @@ input {
   display: none;
 }
 
+.ready__button--one {
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+          animation: glow 1s ease-in-out infinite alternate;
+}
+
 .ready__button--one:hover {
   background: darkgrey;
   border: darkgrey;
@@ -1131,6 +1201,28 @@ input {
   background: green;
   border: none;
   cursor: default;
+}
+
+@-webkit-keyframes glow {
+  from {
+    -webkit-box-shadow: 0px 0px 5px #fff;
+            box-shadow: 0px 0px 5px #fff;
+  }
+  to {
+    -webkit-box-shadow: 0px 0px 40px #fff;
+            box-shadow: 0px 0px 40px #fff;
+  }
+}
+
+@keyframes glow {
+  from {
+    -webkit-box-shadow: 0px 0px 5px #fff;
+            box-shadow: 0px 0px 5px #fff;
+  }
+  to {
+    -webkit-box-shadow: 0px 0px 40px #fff;
+            box-shadow: 0px 0px 40px #fff;
+  }
 }
 
 .start-game {

@@ -39,6 +39,7 @@ const overlay = document.querySelector('.overlay');
 const gameCodeCopy = document.querySelector('.game-code__copy');
 const gameCodeReveal = document.querySelector('.game-code__reveal');
 const lostConnectionContainer = document.querySelector('.lost-connection');
+const playerDisconnectedContainer = document.querySelector('.player-disconnected');
 
 // Generate HTML
 const generateGameboard = (gameBoardElement) => {
@@ -158,6 +159,9 @@ socket.addEventListener('message', ({data: message}) => {
             break;
         case 'rematch-game':
             handleRematchGame();
+            break;
+        case 'player-disconnected':
+            handlePlayerDisconnected(data);
             break;
     }
 });
@@ -629,3 +633,16 @@ gameCodeCopy.addEventListener('click', () => {
 gameCodeReveal.addEventListener('click', () => {
     gameCodeOutput.classList.add('game-code__code--no-blur');
 })
+
+const handlePlayerDisconnected = ({ word }) => {
+    playerDisconnectedContainer.classList.add('player-disconnected--visible');
+
+    if (word !== null) {
+        playerDisconnectedContainer.querySelector('.player-disconnected__button').addEventListener('click', e => {
+            e.target.innerText = word;
+        })
+    } else {
+        playerDisconnectedContainer.querySelector('.player-disconnected__button').classList.add('player-disconnected__button--hidden');
+    }
+
+}

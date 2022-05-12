@@ -86,7 +86,16 @@ module.exports = async(expressServer) => {
             playerWaiting = null;
         }
 
-        // update any games with this player
+        if (ws.gameId) {
+            const game = findGame(ws.gameId);
+            if (game.word) {
+                messageAllClientsInGame(game.gameId, 'player-disconnected', true, {word: game.word.join('')});
+            } else {
+                messageAllClientsInGame(game.gameId, 'player-disconnected', true, {word: null});
+            }
+            // remove it from the game array also
+        }
+
     };
 
     // Create a new game object and add it to our games array - send it to the client
