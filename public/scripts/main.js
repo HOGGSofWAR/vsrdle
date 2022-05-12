@@ -1,5 +1,5 @@
 // Create a new websocket connection (location.host will make the request to the same host this page is served from)
-let socket = new WebSocket(`ws://${location.host}/websockets`);
+let socket = new WebSocket(`wss://${location.host}/websockets`);
 
 const validLetters = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'Enter', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '<<', 'Backspace'];
 
