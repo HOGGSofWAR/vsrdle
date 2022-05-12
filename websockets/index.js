@@ -7,6 +7,8 @@ const wordList = require('../utils/words');
 
 const games = [];
 let playerWaiting = null;
+let totalGamesStarted = 0;
+let totalGamesCompleted = 0;
 
 // Export this function to use in our server.js file
 module.exports = async(expressServer) => {
@@ -80,6 +82,7 @@ module.exports = async(expressServer) => {
         console.log(`${ws.socketId} disconnected`);
 
         if (playerWaiting === ws.socketId) {
+            console.log(`${ws.socketId} has left the public match queue`);
             playerWaiting = null;
         }
 
@@ -103,7 +106,8 @@ module.exports = async(expressServer) => {
         games.push(newGame);
         ws.gameId = gameId;
 
-        console.log('TOTAL NUMBER OF GAMES', games.length);
+        console.log('TOTAL NUMBER OF GAMES CREATED', games.length);
+        console.log(`${ws.socketId} has created a private game and is waiting for someone to join`);
 
         messageClient(ws, 'set-player-number', true, {number: 'one'});
         messageClient(ws, 'create-game', true, {gameId});
@@ -184,6 +188,8 @@ module.exports = async(expressServer) => {
                 game.playerOneInvalidGuesses = [];
                 game.playerTwoInvalidGuesses = [];
                 game.startedAt = moment();
+                totalGamesStarted++;
+                console.log(`${game.gameId} has started! ${totalGamesStarted} have been started so far`);
                 messageAllClientsInGame(ws.gameId, 'start-game', true);
             }, 3000);
         };
@@ -263,6 +269,8 @@ module.exports = async(expressServer) => {
         if(player === 2 && game.playerTwoEnded) return;
 
         const guessAsString = guess.join('');
+
+        console.log(`${ws.socketId} guessed ${guessAsString} - the actual word is ${game.word}`);
 
         if(!wordList.includes(guessAsString)) {
             if(player === 1) {
@@ -427,6 +435,10 @@ module.exports = async(expressServer) => {
                 winner,
                 word: game.word
             }
+
+            totalGamesCompleted++;
+            console.log(`${game.gameId} has ended! ${totalGamesCompleted} have been completed so far`);
+
             messageAllClientsInGame(game.gameId, 'game-ended', true, {stats});
         }
     }
@@ -517,8 +529,10 @@ module.exports = async(expressServer) => {
     const handleJoinPublicGame = ws => {
         if (playerWaiting === null) {
             playerWaiting = ws.socketId;
+            console.log(`${ws.socketId} is waiting to join a public match`);
         } else {
             const playerWaitingSocket = getWsBySocketId(playerWaiting);
+            console.log(`${ws.socketId} has joined a public match with ${playerWaiting}`);
             playerWaiting = null;
 
             const gameId = short.generate();

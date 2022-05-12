@@ -38,6 +38,7 @@ const matchmakeButton = document.querySelector('.start-game__button--matchmake')
 const overlay = document.querySelector('.overlay');
 const gameCodeCopy = document.querySelector('.game-code__copy');
 const gameCodeReveal = document.querySelector('.game-code__reveal');
+const lostConnectionContainer = document.querySelector('.lost-connection');
 
 // Generate HTML
 const generateGameboard = (gameBoardElement) => {
@@ -100,8 +101,6 @@ socket.addEventListener('open', () => {
 
 socket.addEventListener('message', ({data: message}) => {
     const parsedMessage = JSON.parse(message);
-
-    // console.log(parsedMessage);
 
     const { method, success, data } = parsedMessage;
 
@@ -167,6 +166,8 @@ socket.addEventListener('close', () => {
     console.log('close');
 
     // show some kind of disconnected message
+
+    lostConnectionContainer.classList.add('lost-connection--visible');
 });
 
 socket.addEventListener('error', (e) => {

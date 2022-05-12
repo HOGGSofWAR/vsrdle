@@ -83,6 +83,41 @@ input {
   border-radius: 0;
 }
 
+.lost-connection {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  display: none;
+}
+
+.lost-connection p {
+  background-color: #fff;
+  font-family: "Quicksand", sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
+  color: #BA8B70;
+  letter-spacing: 0.02em;
+  font-size: 28px;
+  line-height: 32px;
+  padding: 10px;
+}
+
+.lost-connection--visible {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
 .countdown {
   display: none;
   position: absolute;
