@@ -9,7 +9,7 @@
     left: 50%;
     transform: translate(-50%, -60%);
     width: 100%;
-    z-index: 2;
+    z-index: 3;
 
     &--visible {
         display: block;
@@ -32,6 +32,11 @@
         color: $lightgreen;
         text-align: center;
         margin: 0 0 20px;
+
+        @include mobile() {
+            font-size: 25px;
+            line-height: 28px;
+        }
     }
 
     &__player-stats {
@@ -78,9 +83,13 @@
             @include h4();
             color: $teal;
             margin: 0 0 30px;
+            font-size: 30px;
+            line-height: 35px;
 
             @include mobile() {
                 margin: 0 0 20px;
+                font-size: 20px;
+                line-height: 23px;
             }
         }
     }

@@ -1,9 +1,31 @@
 body {
     background: $primary;
     margin: 0;
+
+    // h1, h2, h3, h4, h5, h6, p, a {
+    //     margin: 0;
+    // }
 }
 
 .container {
     @include container();
     position: relative;
+}
+
+.twitter {
+    text-align: right;
+
+    p {
+        @include p();
+        font-size: 12px;
+        color: $blueblack;
+        margin: 0;
+    }
+
+    &__link {
+        @include a();
+        font-size: 12px;
+        font-weight: $f-bold;
+        margin: 0;
+    }
 }

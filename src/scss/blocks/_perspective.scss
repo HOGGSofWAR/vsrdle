@@ -41,6 +41,7 @@
     }
 
     &--one {
+        z-index: 1;
 
         @include tablet() {
             margin-right: 10%;

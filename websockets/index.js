@@ -103,6 +103,8 @@ module.exports = async(expressServer) => {
         games.push(newGame);
         ws.gameId = gameId;
 
+        console.log('TOTAL NUMBER OF GAMES', games.length);
+
         messageClient(ws, 'set-player-number', true, {number: 'one'});
         messageClient(ws, 'create-game', true, {gameId});
         messageAllClients('game-id', true, gameId); // for testing only - remove later

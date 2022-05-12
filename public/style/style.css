@@ -41,6 +41,41 @@ body {
   }
 }
 
+.twitter {
+  text-align: right;
+}
+
+.twitter p {
+  font-family: "Quicksand", sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
+  color: #BA8B70;
+  letter-spacing: 0.02em;
+  font-size: 12px;
+  color: #3c3c3b;
+  margin: 0;
+}
+
+.twitter__link {
+  font-family: "Quicksand", sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
+  color: #3c3c3b;
+  text-decoration: none;
+  -webkit-transition: color .2s;
+  transition: color .2s;
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.twitter__link:hover {
+  color: #AD827C;
+}
+
 .countdown {
   display: none;
   position: absolute;
@@ -53,6 +88,7 @@ body {
   border-radius: 5px;
   min-width: 80px;
   text-align: center;
+  z-index: 2;
 }
 
 .countdown--visible {
@@ -622,7 +658,7 @@ body {
   -webkit-transform: translate(-50%, -60%);
           transform: translate(-50%, -60%);
   width: 100%;
-  z-index: 2;
+  z-index: 3;
 }
 
 .modal--visible {
@@ -652,6 +688,13 @@ body {
   color: #a1c0ba;
   text-align: center;
   margin: 0 0 20px;
+}
+
+@media (max-width: 599px) {
+  .modal__word, .modal__winner {
+    font-size: 25px;
+    line-height: 28px;
+  }
 }
 
 .modal__player-stats {
@@ -709,11 +752,15 @@ body {
   color: #BA8B70;
   color: #6f8e88;
   margin: 0 0 30px;
+  font-size: 30px;
+  line-height: 35px;
 }
 
 @media (max-width: 599px) {
   .modal__text--header {
     margin: 0 0 20px;
+    font-size: 20px;
+    line-height: 23px;
   }
 }
 
@@ -793,6 +840,7 @@ body {
   height: 100vh;
   background: #3c3c3b;
   opacity: 0.5;
+  z-index: 2;
 }
 
 .overlay--active {
@@ -852,6 +900,10 @@ body {
   .perspective {
     width: 300px;
   }
+}
+
+.perspective--one {
+  z-index: 1;
 }
 
 @media (min-width: 599px) and (max-width: 1024px) {
