@@ -1,0 +1,78 @@
+.game-code {
+    background: $white;
+    display: inline-block;
+
+    padding: 10px;
+    box-sizing: border-box;
+
+    @include tablet() {
+        width: auto;
+        // display: flex;
+        // align-items: center;
+    }
+
+    @include mobile() {
+        width: auto;
+        // display: flex;
+        // align-items: center;
+    }
+    // justify-content: space-between;
+
+    &__code-container {
+        position: relative;
+    }
+
+    &__code {
+        @include p();
+        color: $blueblack;
+        border: 1px solid $blueblack;
+        padding: 10px;
+        // margin: 0;
+        font-size: 14px;
+        filter: blur(2px);
+        margin: 0 0 5px;
+
+        @include ultrawide() {
+            margin: 0 0 5px;
+        }
+
+        @include desktop() {
+            margin: 0 0 5px;
+        }
+
+        &--no-blur {
+            filter: none;
+        }
+    }
+
+    &__text {
+        @include p();
+        font-weight: $f-bold;
+        margin-bottom: 5px;
+        display: block;
+        font-size: 14px;
+
+        @include tablet() {
+           margin: 0 10px 0 0;
+        }
+    
+        @include mobile() {
+            margin: 0 0 10px 0;
+        }
+    }    
+
+    &__copy,
+    &__reveal {
+        @include button();
+        font-size: 12px;
+        padding: 0 10px;
+        min-width: 0 !important;
+        line-height: 22px;
+    }
+
+    &__copy {
+        @include mobile() {
+            margin-bottom: 5px;
+        }
+    }
+}

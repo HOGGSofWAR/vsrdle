@@ -1,0 +1,18 @@
+.error-messages {
+    height: 50px;
+    //padding-top: 20px;
+    
+    &__text {
+      font-family: quicksand;
+      font-weight: 600;
+      font-style: italic;
+      padding: 10px;  
+      margin: 0;
+
+      &--two {
+          @include mobile() {
+              display: none;
+          }
+      }
+    }
+}

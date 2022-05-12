@@ -6,25 +6,185 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>vsrdle</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/public/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/public/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/public/favicons/site.webmanifest">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/public/style/style.css">
     <script src="/public/scripts/main.js" defer></script>
 </head>
 
 <body>
     <main class="container">
-        <section class="game-code">
-            <p class="game-code__code"></p>
-        </section>
+        <div class="header">
+            <h1 class="header__text header__text--title">VSRDLE</h1>
+            <p class="header__text">A competitve word guessing game!</p>
+        </div>
+
+        <!-- start game buttons -->
         <section class="start-game">
-                <div class="start-game__button-container">
-                    <button class="start-game__button start-game__button--create">Create Game</button>
-                    <form class="start-game__join">
-                        <input type="text" class="start-game__input" name="gameId">
-                        <button class="start-game__button start-game__button--join" type="submit">Join Game</button>
-                    </form>
-                </div>
+            <div class="start-game__button-container start-game__button-container--public">
+                <h2 class="start-game__header">Public Lobby</h2>
+                <button class="start-game__button start-game__button--matchmake">Search for game</button>
+            </div>
+            <div class="start-game__button-container start-game__button-container--private">
+                <h2 class="start-game__header">Private Lobby</h2>
+                <button class="start-game__button start-game__button--create">Create Game</button>
+                <p class="start-game__text">or enter a lobby code</p>
+                <form class="start-game__join">
+                    <input type="password" class="start-game__input" name="gameId" autocomplete="off">
+                    <button class="start-game__button start-game__button--join" type="submit">Join Game</button>
+                    <span class="start-game__text start-game__text--error"></span>
+                </form>
+            </div>
         </section>
+
+        <section class="game">
+
+            <!-- header (just one on page) -->
+            <header class="header header--instructions">
+                <!-- <div class="header__content">
+                    <p class="header__text">Colour blind friendly!</p>
+                    <p class="header__text header__text--instructions">Orange = Correct letter in correct position</p>
+                    <p class="header__text header__text--instructions">Blue = Correct letter in the wrong position</p>
+                </div> -->
+
+                <section class="timer">
+                    <p class="timer__time">00:00</p>
+                </section>
+
+                <!-- game code for joining -->
+                <div class="game-code">
+                    <span class="game-code__text">Invite code:</span>
+                    <div class="game-code__code-container">
+                        <input class="game-code__code" disabled></input> 
+                    </div>
+                    <div class="game-code__code-container">
+                        <button class="game-code__copy">Copy code</button>
+                        <button class="game-code__reveal">Reveal code</button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- both player perspectives -->
+            <section class="perspectives">
+
+                <!-- player one section -->
+                <section class="perspective perspective--one">
+
+                    <div class="perspective__header">
+
+                        <h2 class="header__text player-text player-text--one">Player one</h2>
+
+                        <!-- ready button for player one -->
+
+                        <section class="ready">
+                            <div class="ready__button-container">
+                                <button class="ready__button ready__button--one">Ready</button>
+                            </div>
+                        </section>
+
+                    </div>
+
+                    <section class="error-messages">
+                        <p class="error-messages__text error-messages__text--one"></p>
+                    </section>
+
+                    <section class="messages">
+                        <h3 class="messages__text messages__text--title"></h3>
+                    </section>
+
+                    <section class="gameboard gameboard--one">
+
+                    </section>
+
+                    <section class="keypad keypad--one">
+
+                    </section>
+
+                </section>
+
+                <!-- player two section -->
+                <section class="perspective perspective--two">
+
+                    <div class="perspective__header">
+                        <h2 class="header__text player-text player-text--two">Waiting for player to join...</h2>
+
+                        <!-- ready button for player two -->
+
+                        <section class="ready">
+                            <div class="ready__button-container">
+                                <button class="ready__button ready__button--two" disabled>Ready</button>
+                            </div>
+                        </section>
+                    </div>
+
+                    <section class="error-messages">
+                        <p class="error-messages__text error-messages__text--two"></p>
+                    </section>
+
+                    <section class="messages">
+                        <h3 class="messages__text messages__text--title"></h3>
+                    </section>
+
+                    <section class="gameboard gameboard--two">
+
+                    </section>
+
+                    <section class="keypad keypad--two">
+
+                    </section>
+
+
+
+                </section>
+
+            </section>
+
+            <section class="countdown">
+                <p class="countdown__text">3</p>
+            </section>
+
+            <!-- stats modal -->
+
+            <section class="modal modal--stats">
+                <h4 class="modal__winner"></h4>
+                <h4 class="modal__word"></h4>
+                <div class="modal__player-stats">
+                    <div class="modal__player modal__player--one">
+                        <h3 class="modal__text modal__text--header">Player 1 Stats</h3>
+                        <p class="modal__text"></p>
+                        <p class="modal__text"></p>
+                        <p class="modal__text"></p>
+                        <p class="modal__text"></p>
+                        <p class="modal__text"></p>
+                    </div>
+                    <div class="modal__player modal__player--two">
+                        <h3 class="modal__text modal__text--header">Player 2 Stats</h3>
+                        <p class="modal__text"></p>
+                        <p class="modal__text"></p>
+                        <p class="modal__text"></p>
+                        <p class="modal__text"></p>
+                        <p class="modal__text"></p>
+                    </div>
+                </div>
+                <div class="modal__buttons">
+
+                    <button class="modal__button modal__button--rematch">Rematch?</button>
+                    <button class="modal__button modal__button--quit">Quit to menu</button>
+
+                </div>
+            </section>
+
+        </section>
+
     </main>
+
+    <section class="overlay">
+
+    </section>
+
 </body>
 
 </html>

@@ -1,0 +1,51 @@
+@mixin container () {
+
+    @media (min-width: 1920px) {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding-left: 10vw;
+        padding-right: 10vw;
+    }
+
+    @media (min-width: 1240px) and (max-width: 1920px) {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding-left: 10vw;
+        padding-right: 10vw;
+    }
+    
+    @media (min-width: 599px) and (max-width: 1240px) {
+        margin: 0 auto;
+        padding-left: 5vw;
+        padding-right: 5vw;
+    }
+
+    @media (max-width: 599px) {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+@mixin mobile () {
+    @media (max-width: 599px) {
+        @content;
+    }
+}
+
+@mixin tablet() {
+    @media (min-width: 599px) and (max-width: 1024px) {
+        @content;
+    }
+}
+
+@mixin desktop() {
+    @media (min-width: 1024px) and (max-width: 1920px) {
+        @content;
+    }
+}
+
+@mixin ultrawide() {
+    @media (min-width: 1920px) {
+        @content;
+    }
+}

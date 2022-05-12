@@ -1,0 +1,48 @@
+.ready {
+    display: none;
+
+    &--visible {
+        display: block;
+
+        @include tablet() {
+
+        }
+
+        @include mobile() {
+            width: 90px;
+        }
+    }
+
+    &__button {
+        @include button();
+        background: grey;
+        border: grey;
+        min-width: 0 !important;
+        width: 120px;
+        padding: 0;
+
+        &--active {
+            background: green;
+        }
+
+        &--hidden {
+            display: none;
+        }
+
+        &--one {
+            &:hover {
+                background: darkgrey;
+                border: darkgrey;
+            }
+        }
+
+        &--two {
+            &:hover {
+                border: 0;
+                background: grey;
+                cursor: default;
+            }
+        }
+    }
+
+}

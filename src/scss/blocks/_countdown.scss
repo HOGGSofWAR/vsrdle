@@ -1,0 +1,30 @@
+.countdown {
+    display: none;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    left: 50%;
+
+    background: $darksalmon;
+    padding: 30px;
+    border-radius: 5px;
+    min-width: 80px;
+    text-align: center;
+
+    &--visible {
+        display: block;
+    }
+    
+    &__text {
+        // font-size: 100px;
+
+        @include h1();
+        color: $blueblack;
+        margin: 0;
+        font-weight: $f-bold;
+
+        @include desktop() {
+
+        }
+    }
+}

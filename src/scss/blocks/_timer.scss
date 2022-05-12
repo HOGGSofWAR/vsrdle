@@ -1,0 +1,17 @@
+.timer {
+    background: $white;
+    padding: 10px 15px;
+
+    @include tablet() {
+        margin-bottom: 10px;
+    }
+
+    @include mobile() {
+        margin-bottom: 10px;
+    }
+
+    &__time {
+        @include p();
+        margin: 0;
+    }
+}

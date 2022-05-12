@@ -1,0 +1,90 @@
+.perspectives {
+    display: flex;
+    justify-content: space-between;
+
+    @include ultrawide() {
+        max-width: 780px;
+        margin: 0 auto; 
+    }
+
+
+    @include desktop() {
+        max-width: 780px;
+        margin: 0 auto; 
+    }
+
+    @include tablet() {
+        justify-content: center;
+    }
+
+    @include mobile() {
+        justify-content: center;
+    }
+}
+
+.perspective {
+
+    @include ultrawide() {
+        width: 300px;
+    }
+
+    @include desktop() {
+        width: 300px;
+    }
+
+    @include tablet() {
+
+    }
+
+    @include mobile() {
+
+    }
+
+    &--one {
+
+        @include tablet() {
+            margin-right: 10%;
+        }
+    
+        @include mobile() {
+            margin-right: 20px;
+            width: 100px;
+            width: 60%;
+        }
+
+    }
+
+    &--two {
+        @include tablet() {
+            // width: 100px;
+            width: 35%;
+        }
+
+        @include mobile() {
+            // width: 100px;
+            width: 35%;
+        }
+    }
+
+    position: relative;
+    // padding-top: 30px;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        @media (max-width: 730px) {
+            flex-direction: column;
+            align-items: start;
+        }
+    }
+
+    .player {
+        &__text {
+            @media (max-width: 730px) {
+                margin-bottom: 5px;
+            }
+        }
+    }
+}

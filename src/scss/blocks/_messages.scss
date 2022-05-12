@@ -1,0 +1,48 @@
+.messages {
+    // position: absolute;
+    // top: 50%;
+    // left: 50%;
+    // transform: translateX(-50%) translateY(-50%);
+    // width: 400px;
+
+    //background: $tertiary;
+    // padding: 40px;
+    text-align: center;
+    // border-radius: 10px;
+    width: 300px;
+    // margin: 0 auto 30px;
+    // background: $white;
+    // width: 250px;
+    // padding: 20px;
+    // display: inline-block;
+    // position: absolute;
+    // left: 39px;
+    // top: 230px;
+    margin-bottom: 20px;
+    margin-top: -20px;
+
+    @include mobile() {
+        width: 100%;
+    }
+
+    &__text {
+        font-family: quicksand;
+        font-size: 40px;
+        line-height: 42px;
+        color: $secondary;
+        font-weight: 400;
+        letter-spacing: 3px;
+        margin: 0;
+
+        &--title {
+            font-size: 22px;
+            line-height: 25px;
+            letter-spacing: 0.05em;
+
+            @include mobile() {
+                font-size: 16px;
+                line-height: 18px;
+            }
+        }
+    }
+}

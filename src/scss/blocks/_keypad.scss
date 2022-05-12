@@ -1,0 +1,67 @@
+.keypad {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+
+    &--one {
+
+        @include mobile() {
+            min-width: 300px;
+        }
+
+        @media (max-width: 340px) {
+            margin-left: -4%;
+            min-width: 300px;
+        }
+
+    }
+
+    &--two {
+        display: none;
+    }
+    
+    &__row {
+      margin-bottom: 5px;
+      display: flex;
+      justify-content: space-between;
+      
+      &:nth-of-type(2) {
+        max-width: 260px;
+        margin: 0 auto 5px;
+      }
+    }
+    
+    &__button {
+      min-width: 25px;
+      height: 40px;
+      border-radius: 5px;
+      border: 0;
+      cursor: pointer;
+      transition: 0.3s ease;
+      
+      &:hover {
+        background: $tertiary;
+        transition: 0.3s ease;
+      }
+      
+      &--green,
+      &--yellow,
+      &--grey {
+        color: $secondary;
+      }
+      
+      &--grey {
+        background: $grey;
+      }
+      
+      &--yellow {
+        background: $yellow;
+      }
+      
+      &--green {
+        background: $green;
+      }
+  
+    }
+  }

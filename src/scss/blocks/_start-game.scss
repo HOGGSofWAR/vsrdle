@@ -1,0 +1,132 @@
+.start-game {
+    background: $white;
+    padding: 60px;
+    margin: 0 auto;
+
+    @include ultrawide() {
+        max-width: 700px;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    @include desktop() {
+        max-width: 700px;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    @include tablet() {
+        
+    }
+
+    @include mobile() {
+        padding: 30px 20px;
+    }
+
+    &--hidden {
+        display: none;
+    }
+
+    &__button-container {
+        @include ultrawide() {
+            width: 48%;
+            padding-left: 40px;
+        }
+
+        @include desktop() {
+            width: 48%;
+            padding-left: 40px;
+        }
+
+        @include tablet() {
+            margin-bottom: 40px;
+        }
+
+        @include mobile() {
+            margin-bottom: 30px;
+        }
+
+        &--public {
+            @include tablet() {
+                border-bottom: 1px solid black;
+                padding-bottom: 30px;
+            }
+
+            @include mobile() {
+                border-bottom: 1px solid black;
+                padding-bottom: 30px;
+            }
+        }
+
+        &--private {
+            @include ultrawide() {
+                border-left: 1px solid black;
+            }
+
+            @include desktop() {
+                border-left: 1px solid black;
+            }
+        }
+    }
+
+    &__header {
+        @include h3();
+        margin-top: 0;
+
+        @include tablet() {
+            margin-bottom: 10px;
+        }
+
+        @include mobile() {
+            margin-bottom: 10px;
+        }
+    }
+
+    &__button {
+        @include button();
+
+        &--active {
+            background-color: green;
+        }
+    }
+
+    &__text {
+        @include p();
+
+        &--error,
+        &--searching {
+            font-weight: $f-bold;
+            color: $teal;
+            display: block;
+            width: 220px;
+            font-size: 14px;
+            padding-top: 10px;
+
+            @include tablet() {
+                width: 100%;
+            }
+
+            @include mobile() {
+                width: 100%;
+            }
+        }
+    }
+
+    &__input {
+        @include p();
+
+        line-height: 40px;
+        border: 1px solid grey;
+        padding: 0 5px;
+        width: 230px;
+        letter-spacing: 0.1em;
+        margin-bottom: 5px;
+        box-sizing: border-box;
+
+        @include mobile() {
+            width: 100%;
+        }
+    }
+}

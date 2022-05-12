@@ -1,0 +1,8 @@
+.game {
+    display: none;
+    position: relative;
+
+    &--visible {
+        display: block;
+    }
+}

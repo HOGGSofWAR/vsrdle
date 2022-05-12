@@ -1,0 +1,108 @@
+.modal {
+    $root: &;
+    $stats: #{$root}--stats;
+
+    display: none;
+    
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    width: 100%;
+    z-index: 2;
+
+    &--visible {
+        display: block;
+    }
+
+    &--stats {
+        padding: 30px;
+        max-width: 500px;
+        background: $white;
+
+        @include mobile() {
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+    }
+
+    &__word,
+    &__winner {
+        @include h4();
+        color: $lightgreen;
+        text-align: center;
+        margin: 0 0 20px;
+    }
+
+    &__player-stats {
+        display: flex;
+        justify-content: space-between;
+
+        @include tablet() {
+
+        }
+
+        @include mobile() {
+            flex-direction: column;
+        }
+    }
+
+    &__player {
+        width: 45%;
+        margin-bottom: 30px;
+
+        @include mobile() {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+
+        &--one {
+            @include mobile() {
+                margin-bottom: 30px;
+            }
+
+        }
+
+        &--two {
+
+        }
+    }
+
+    &__text {
+        @include p();
+        color: $lightgreen;
+        margin: 0 0 10px;
+
+        &--header {
+            @include h4();
+            color: $teal;
+            margin: 0 0 30px;
+
+            @include mobile() {
+                margin: 0 0 20px;
+            }
+        }
+    }
+
+    &__buttons {
+        display: flex;
+        justify-content: space-between;
+
+        @include mobile() {
+            flex-direction: column;
+        }
+    }
+
+    &__button {
+        @include button();
+
+        @include mobile() {
+            margin-bottom: 10px;
+        }
+
+        &--active {
+            background: green;
+        }
+    }
+}

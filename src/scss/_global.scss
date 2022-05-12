@@ -1,0 +1,9 @@
+body {
+    background: $primary;
+    margin: 0;
+}
+
+.container {
+    @include container();
+    position: relative;
+}

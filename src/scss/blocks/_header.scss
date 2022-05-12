@@ -1,0 +1,97 @@
+.header,
+.error-messages {
+  text-align: center;
+  
+  @media (min-width: 350px) {
+    max-width: 400px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  
+  @media (max-width: 350px) {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+.header{
+    max-width: 600px;
+    padding-top: 20px;
+    margin-bottom: 30px;
+
+    @include tablet() {
+        padding-top: 40px;
+    }
+
+    @include mobile() {
+        padding-top: 20px;
+    }
+
+    &--instructions {
+        padding-top: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        max-width: 100%;
+        margin-top: -70px;
+        max-width: 782px;
+
+        @include tablet() {
+            flex-direction: column;
+            margin-top: 0;
+        }
+
+        @include mobile() {
+            flex-direction: column;
+            padding: 0;
+            margin-top: 0;
+        }
+    }
+
+    &__content {
+        background: white;
+        padding: 20px;
+        box-sizing: border-box;
+
+        @include tablet() {
+            width: 100%;
+            padding: 10px 20px;
+            margin-bottom: 10px;
+        }
+
+        @include mobile() {
+            width: 100%;
+            padding: 10px 20px;
+            margin-bottom: 10px;
+            display: none;
+        }
+
+        p {
+            color: $primary;
+        }
+    }
+
+    &__text {
+      @include p();
+      margin: 0 0 5px;
+      font-weight: 600;
+      color: $white;
+      
+      &--instructions {
+        font-size: 14px;
+        line-height: 16px;
+        font-weight: 400;
+      }
+      
+      
+      &--title {
+        color: $secondary;
+        font-weight: 300;
+        letter-spacing: 3px;
+        margin-bottom: 25px;
+        @include h1();
+        color: $white;
+      }
+    }
+  }
