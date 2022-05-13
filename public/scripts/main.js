@@ -18,6 +18,7 @@ let keypadEnabled = false;
 let gameTime = 0;
 
 let pingInterval;
+let publicSuggestTimeout;
 
 // Element selectors
 const createGameButton = document.querySelector('.start-game__button--create');
@@ -48,6 +49,9 @@ const gameCodeCopy = document.querySelector('.game-code__copy');
 const gameCodeReveal = document.querySelector('.game-code__reveal');
 const lostConnectionContainer = document.querySelector('.disconnected--lost');
 const playerDisconnectedContainer = document.querySelector('.disconnected--player');
+const suggestPublicContainer = document.querySelector('.disconnected--public');
+const queueMessageOutput = document.querySelector('.start-game__text--queue-message');
+const showWordButton = document.querySelector('.ready__button--show-word');
 
 // Generate HTML
 const generateGameboard = (gameBoardElement) => {
@@ -178,11 +182,17 @@ socket.addEventListener('message', ({data: message}) => {
         case 'player-disconnected':
             handlePlayerDisconnected(data);
             break;
+        case 'player-disconnected-midgame':
+            handlePlayerDisconnectedMidgame(data);
+            break;
         case 'rematch-refused':
             handleRematchRefused();
             break;
         case 'opponent-rematch-request':
             handleOpponentRematchRequest();
+            break;
+        case 'public-queue-message':
+            handlePublicQueueMessage(data);
             break;
     }
 });
@@ -232,6 +242,7 @@ const handleCreateGame = ({ gameId }) => {
     gameCodeOutput.value = gameId;
     startGameContainer.classList.add('start-game--hidden');
     gameContainer.classList.add('game--visible');
+    startPublicSuggestTimeout();
 }
 
 const handleJoinGame = () => {
@@ -241,6 +252,7 @@ const handleJoinGame = () => {
     playerTwoNameOutput.innerText = 'Player two';
 
     gameCodeContainer.classList.add('game-code--hidden');
+    clearPublicSuggestTimeout();
 }
 
 playerOneReadyButton.addEventListener('click', () => {
@@ -687,4 +699,32 @@ const handlePlayerDisconnected = ({ word }) => {
         button.classList.add('disconnected__button--hidden');
     }
 
+}
+
+const handlePlayerDisconnectedMidgame = ({ word }) => {
+    playerTwoNameOutput.innerText = 'PLAYER TWO DISCONNECTED';
+    showWordButton.classList.remove('ready__button--hidden');
+
+    showWordButton.addEventListener('click', () => {
+        document.querySelector('.word-output').innerText = `The word was: ${word}`;
+        document.querySelector('.word-output').classList.add('word-output--visible');
+    })
+}
+
+const startPublicSuggestTimeout = () => {
+    publicSuggestTimeout = setTimeout(() => {
+        suggestPublicContainer.classList.add('disconnected--visible');
+        suggestPublicContainer.querySelector('.disconnected__button').addEventListener('click', () => {
+            handleQuitGame();
+        })
+    }, 60000);
+}
+
+const clearPublicSuggestTimeout = () => {
+    clearTimeout(publicSuggestTimeout);
+    suggestPublicContainer.classList.remove('disconnected--visible');
+}
+
+const handlePublicQueueMessage = ({message}) => {
+    queueMessageOutput.innerText = message;
 }

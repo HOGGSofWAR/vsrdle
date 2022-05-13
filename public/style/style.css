@@ -1190,6 +1190,14 @@ input {
   }
 }
 
+.perspective .word-output {
+  display: none;
+}
+
+.perspective .word-output--visible {
+  display: block;
+}
+
 .ready {
   display: none;
 }

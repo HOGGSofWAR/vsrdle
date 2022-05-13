@@ -5,10 +5,20 @@ const moment = require('moment');
 
 const wordList = require('../utils/words');
 
+const waitingForPlayerMessages = [
+    'Attempting to find you a match',
+    'Still waiting for another player...',
+    'I hope we find you an opponent soon!',
+    `It seems it's a little quite here today...`,
+    'Why not try hosting a private game and invite a friend?'
+];
+
 const games = [];
 let playerWaiting = null;
 let totalGamesStarted = 0;
 let totalGamesCompleted = 0;
+
+let publicMessageInverval;
 
 let clientsConnected = 0;
 let clientsNotInGame = 0;
@@ -107,7 +117,17 @@ module.exports = async(expressServer) => {
                     messageAllClientsInGame(game.gameId, 'player-disconnected', true, {word: null});
                     break;
                 case '3-start-game':
-                    messageAllClientsInGame(game.gameId, 'player-disconnected', true, {word: game.word.join('')});
+                    messageAllClientsInGame(game.gameId, 'player-disconnected-midgame', true, {word: game.word.join('')});
+                    let player = getPlayer(ws, game);
+                    if (player === 1) {
+                        game.playerOneEnded = true;
+                        game.playerOneEndedAt = game.startedAt;
+                        game.playerOneDisconnected = true;
+                    } else {
+                        game.playerTwoEnded = true;
+                        game.playerTwoEndedAt = game.startedAt;
+                        game.playerTwoDisconnected = true;
+                    }
                     break;
                 case '4-game-ended':
                     messageAllClientsInGame(game.gameId, 'rematch-refused', true);
@@ -476,7 +496,9 @@ module.exports = async(expressServer) => {
                 playerTwoInvalidGuesses: game.playerTwoInvalidGuesses,
                 playerTwoPoints: playerTwoPoints,
                 winner,
-                word: game.word
+                word: game.word,
+                playerOneDisconnected: game.playerOneDisconnected,
+                playerTwoDisconnected: game.playerOneDisconnected,
             }
 
             totalGamesCompleted++;
@@ -563,6 +585,8 @@ module.exports = async(expressServer) => {
         delete game.playerTwoEndedAt;
         delete game.playerOneRematch;
         delete game.playerTwoRematch;
+        delete game.playerOneDisconnected;
+        delete game.playerTwoDisconnected;
 
         game.status = '1-waiting-for-ready';
         game.playerOneReady = false;
@@ -575,8 +599,22 @@ module.exports = async(expressServer) => {
         if (playerWaiting === null) {
             playerWaiting = ws.socketId;
             console.log(`${ws.socketId} is waiting to join a public match`);
+
+            let messageIndex = -1;
+
+            messageClient(ws, 'public-queue-message', true, {message: waitingForPlayerMessages[0]});
+
+            publicMessageInverval = setInterval(() => {
+                messageIndex++;
+                if (messageIndex > waitingForPlayerMessages.length) {
+                    messageIndex = 0;
+                }
+                const message = waitingForPlayerMessages[messageIndex];
+                messageClient(ws, 'public-queue-message', true, {message});
+            }, 5000);
         } else {
             if (playerWaiting === ws.socketId) return;
+            clearTimeout(publicMessageInverval);
             clientsNotInGame = clientsNotInGame - 2;
             clientsInGame = clientsInGame + 2;
             logConnected();
@@ -618,13 +656,13 @@ module.exports = async(expressServer) => {
 
     const calculatePoints = (guesses, time, win) => {
         let points = 0;
-        if (guesses === 1) {
+        if (win && guesses === 1) {
             points = points + 100;
-        } else if (guesses === 2) {
+        } else if (win && guesses === 2) {
             points = points + 70;
-        } else if (guesses < 4) {
+        } else if (win && guesses < 4) {
             points = points + 50;
-        } else if (guesses < 6) {
+        } else if (win && guesses < 6) {
             points = points + 20;
         }
 

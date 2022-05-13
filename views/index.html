@@ -41,6 +41,7 @@
             <div class="start-game__button-container start-game__button-container--public">
                 <h2 class="start-game__header">Public Lobby</h2>
                 <button class="start-game__button start-game__button--matchmake">Search for game</button>
+                <p class="start-game__text start-game__text--queue-message"></p>
             </div>
             <div class="start-game__button-container start-game__button-container--private">
                 <h2 class="start-game__header">Private Lobby</h2>
@@ -130,9 +131,13 @@
                         <section class="ready">
                             <div class="ready__button-container">
                                 <button class="ready__button ready__button--two" disabled>Ready</button>
+                                <button class="ready__button ready__button--hidden ready__button--show-word">Show word</button>
                             </div>
                         </section>
+
                     </div>
+                    
+                    <p class="header__text word-output">The word was: WATER</p>
 
                     <section class="error-messages">
                         <p class="error-messages__text error-messages__text--two"></p>
@@ -212,10 +217,19 @@
         <div class="disconnected__inner">
             <div class="disconnected__top">
                 <p class="disconnected__text">The opponent disconnected, please refresh</p>
-                <small>(Sorry you can't keep playing solo! Coming soon!™)</small>
                 <p class="disconnected__text disconnected__word"></p>
             </div>
             <button class="disconnected__button">Click to reveal the word</button>
+        </div>
+    </section>
+
+    <section class="disconnected disconnected--public">
+        <div class="disconnected__inner">
+            <div class="disconnected__top">
+                <p class="disconnected__text">You've been waiting for your friend for a while now!</p>
+                <p class="disconnected__text">Why not try a public match instead?</p>
+            </div>
+            <button class="disconnected__button">Return to menu</button>
         </div>
     </section>
 
