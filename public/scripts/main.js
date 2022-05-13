@@ -500,6 +500,10 @@ const handleGameEnded = ({stats}) => {
 
     statsModal.classList.add('modal--visible');
     overlay.classList.add('overlay--active');
+
+    if (stats.playerOneDisconnected || game.playerTwoDisconnected) {
+        handleRematchRefused();
+    }
 }
 
 const handleQuitGame = () => {
