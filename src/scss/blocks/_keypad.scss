@@ -60,6 +60,7 @@
       background: $white;
       color: $blueblack;
       text-align: center;
+      text-transform: uppercase;
 
       @media (min-width: 360px) and (max-width: 470px) {
         flex-grow: 1;

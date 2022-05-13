@@ -83,106 +83,6 @@ input {
   border-radius: 0;
 }
 
-.lost-connection, .player-disconnected {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  display: none;
-  z-index: 2;
-}
-
-.lost-connection p, .player-disconnected p {
-  background-color: #fff;
-  font-family: "Quicksand", sans-serif;
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: 400;
-  color: #BA8B70;
-  letter-spacing: 0.02em;
-  font-size: 28px;
-  line-height: 32px;
-  padding: 10px;
-}
-
-.lost-connection small, .player-disconnected small {
-  font-family: "Quicksand", sans-serif;
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: 400;
-  color: #BA8B70;
-  letter-spacing: 0.02em;
-  font-size: 14px;
-  line-height: 16px;
-  text-align: center;
-}
-
-.lost-connection--visible, .player-disconnected--visible {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.lost-connection__inner, .player-disconnected__inner {
-  background-color: #fff;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-}
-
-.lost-connection__button, .player-disconnected__button {
-  border: 1px solid #a1c0ba;
-  background: #a1c0ba;
-  line-height: 40px;
-  font-size: 16px;
-  font-family: "Quicksand", sans-serif;
-  font-weight: 300;
-  letter-spacing: 0.1em;
-  display: inline-block;
-  color: #fff;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 0 30px;
-  text-align: center;
-  cursor: pointer;
-  -webkit-transition: .2s;
-  transition: .2s;
-}
-
-.lost-connection__button:hover, .player-disconnected__button:hover {
-  border: 1px solid #6f8e88;
-  background: #6f8e88;
-}
-
-@media (min-width: 599px) {
-  .lost-connection__button, .player-disconnected__button {
-    min-width: 230px;
-  }
-}
-
-@media (max-width: 600px) {
-  .lost-connection__button, .player-disconnected__button {
-    width: 100%;
-    padding: 0;
-  }
-}
-
-.lost-connection__button--hidden, .player-disconnected__button--hidden {
-  display: none;
-}
-
 .countdown {
   display: none;
   position: absolute;
@@ -259,12 +159,23 @@ input {
   .game-code {
     width: auto;
   }
+  .game-code--hidden {
+    display: none;
+  }
 }
 
 @media (max-width: 599px) {
   .game-code {
     width: auto;
   }
+  .game-code--hidden {
+    display: none;
+  }
+}
+
+.game-code--hidden {
+  opacity: 0;
+  visibility: hidden;
 }
 
 .game-code__code-container {
@@ -484,6 +395,7 @@ input {
   font-size: 20px;
   line-height: 20px;
   margin: 0;
+  text-transform: uppercase;
 }
 
 @media (max-width: 400px) {
@@ -722,6 +634,7 @@ input {
   background: #fff;
   color: #3c3c3b;
   text-align: center;
+  text-transform: uppercase;
 }
 
 @media (min-width: 360px) and (max-width: 470px) {
@@ -842,6 +755,10 @@ input {
   }
 }
 
+.modal__word span, .modal__winner span {
+  text-transform: uppercase;
+}
+
 .modal__player-stats {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -909,6 +826,14 @@ input {
   }
 }
 
+.modal__text--hidden {
+  display: none;
+}
+
+.modal__text--opponent-rematch {
+  text-align: center;
+}
+
 .modal__buttons {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -974,9 +899,157 @@ input {
   background: green;
 }
 
+.modal__button--disabled {
+  background: #3c3c3b;
+}
+
+.modal__button--disabled:hover {
+  background: #3c3c3b;
+  cursor: default;
+}
+
+.disconnected {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  display: none;
+  z-index: 2;
+}
+
+.disconnected small {
+  font-family: "Quicksand", sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
+  color: #BA8B70;
+  letter-spacing: 0.02em;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: center;
+  margin: 0 0 20px 0;
+  width: 100%;
+  display: block;
+}
+
+.disconnected--visible {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.disconnected__top {
+  padding: 30px;
+}
+
+.disconnected--lost .disconnected__top {
+  padding: 40px 30px;
+}
+
+.disconnected__inner {
+  background-color: #fff;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.disconnected--player .disconnected__inner,
+.disconnected--lost .disconnected__inner {
+  width: 90%;
+  max-width: 600px;
+}
+
+.disconnected__text {
+  font-family: "Quicksand", sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
+  color: #BA8B70;
+  letter-spacing: 0.02em;
+  font-size: 28px;
+  line-height: 32px;
+  margin: 0 0 25px;
+  text-align: center;
+}
+
+.disconnected--lost .disconnected__text {
+  margin: 0;
+}
+
+.disconnected__word {
+  display: none;
+  font-size: 23px;
+  line-height: 26px;
+  margin: 0;
+  max-width: 170px;
+  margin: 0 auto;
+}
+
+.disconnected__word span {
+  text-transform: uppercase;
+  font-size: 28px;
+}
+
+.disconnected__word--visible {
+  display: block;
+}
+
+.disconnected__button {
+  border: 1px solid #a1c0ba;
+  background: #a1c0ba;
+  line-height: 40px;
+  font-size: 16px;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  display: inline-block;
+  color: #fff;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0 30px;
+  text-align: center;
+  cursor: pointer;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
+.disconnected__button:hover {
+  border: 1px solid #6f8e88;
+  background: #6f8e88;
+}
+
+@media (min-width: 599px) {
+  .disconnected__button {
+    min-width: 230px;
+  }
+}
+
+@media (max-width: 600px) {
+  .disconnected__button {
+    width: 100%;
+    padding: 0;
+  }
+}
+
+.disconnected__button--hidden {
+  display: none;
+}
+
 .overlay {
   display: none;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;

@@ -9,14 +9,26 @@
         width: auto;
         // display: flex;
         // align-items: center;
+        &--hidden {
+            display: none;
+        }
     }
 
     @include mobile() {
         width: auto;
         // display: flex;
         // align-items: center;
+
+        &--hidden {
+            display: none;
+        }
     }
     // justify-content: space-between;
+
+    &--hidden {
+        opacity: 0;
+        visibility: hidden;
+    }
 
     &__code-container {
         position: relative;

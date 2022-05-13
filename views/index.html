@@ -6,6 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>vsrdle</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y2S1KQDYNM"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-Y2S1KQDYNM');
+    </script>
     <link rel="apple-touch-icon" sizes="180x180" href="/public/favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/public/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/public/favicons/favicon-16x16.png">
@@ -174,6 +183,7 @@
                         <p class="modal__text"></p>
                     </div>
                 </div>
+                <p class="modal__text modal__text--opponent-rematch modal__text--hidden">Opponent wants a rematch!</p>
                 <div class="modal__buttons">
 
                     <button class="modal__button modal__button--rematch">Rematch?</button>
@@ -190,17 +200,24 @@
 
     </section>
 
-    <section class="lost-connection">
-        <p>You've lost connection to the server, please refresh</p>
+    <section class="disconnected disconnected--lost">
+        <div class="disconnected__inner">
+            <div class="disconnected__top">
+                <p class="disconnected__text">You've lost connection to the server, please refresh</p>
+            </div>
+        </div>
     </section>
 
-    <div class="player-disconnected">
-        <div class="player-disconnected__inner">
-            <p>The opponent disconnected, please refresh</p>
-            <small>(Sorry you can't keep playing solo! Coming soon!™</small>
-            <button class="player-disconnected__button">Click to reveal the word</button>
+    <section class="disconnected disconnected--player">
+        <div class="disconnected__inner">
+            <div class="disconnected__top">
+                <p class="disconnected__text">The opponent disconnected, please refresh</p>
+                <small>(Sorry you can't keep playing solo! Coming soon!™)</small>
+                <p class="disconnected__text disconnected__word"></p>
+            </div>
+            <button class="disconnected__button">Click to reveal the word</button>
         </div>
-    </div>
+    </section>
 
 </body>
 

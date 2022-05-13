@@ -51,6 +51,9 @@ module.exports = async(expressServer) => {
         const { method, data } = parsedMessage;
 
         switch(method) {
+            case 'ping':
+                messageClient(ws, 'pong', true);
+                break;
             case 'create-game':
                 createGame(ws);
                 break;
@@ -88,12 +91,22 @@ module.exports = async(expressServer) => {
 
         if (ws.gameId) {
             const game = findGame(ws.gameId);
-            if (game.word) {
-                messageAllClientsInGame(game.gameId, 'player-disconnected', true, {word: game.word.join('')});
-            } else {
-                messageAllClientsInGame(game.gameId, 'player-disconnected', true, {word: null});
+            switch (game.status) {
+                case '0-waiting-for-player-two':
+                case '1-waiting-for-ready':
+                case '2-beginning-countdown':
+                    messageAllClientsInGame(game.gameId, 'player-disconnected', true, {word: null});
+                    break;
+                case '3-start-game':
+                    messageAllClientsInGame(game.gameId, 'player-disconnected', true, {word: game.word.join('')});
+                    break;
+                case '4-game-ended':
+                    messageAllClientsInGame(game.gameId, 'rematch-refused', true);
+                    break;
+                case '5-resetting':
+                    break;
             }
-            // remove it from the game array also
+            // remove it from the game array also - only if both players have left
         }
 
     };
@@ -498,13 +511,15 @@ module.exports = async(expressServer) => {
             game.playerTwoRematch = true;
         }
 
-        checkRematch(game);
+        checkRematch(ws, game);
     }
 
-    const checkRematch = game => {
+    const checkRematch = (ws, game) => {
         if (game.playerOneRematch && game.playerTwoRematch) {
             game.status = '5-resetting';
             resetGame(game);
+        } else {
+            messageOpponent(ws.socketId, game, 'opponent-rematch-request', true);
         }
     }
 
@@ -540,6 +555,8 @@ module.exports = async(expressServer) => {
             playerWaiting = ws.socketId;
             console.log(`${ws.socketId} is waiting to join a public match`);
         } else {
+            if (playerWaiting === ws.socketId) return;
+
             const playerWaitingSocket = getWsBySocketId(playerWaiting);
             console.log(`${ws.socketId} has joined a public match with ${playerWaiting}`);
             playerWaiting = null;

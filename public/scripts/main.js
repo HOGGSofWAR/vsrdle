@@ -1,5 +1,10 @@
 // Create a new websocket connection (location.host will make the request to the same host this page is served from)
-let socket = new WebSocket(`wss://${location.host}/websockets`);
+let socket;
+if (location.protocol === 'http:') {
+    socket = new WebSocket(`ws://${location.host}/websockets`);
+} else {
+    socket = new WebSocket(`wss://${location.host}/websockets`);
+}
 
 const validLetters = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'Enter', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '<<', 'Backspace'];
 
@@ -12,9 +17,12 @@ let playerNumber;
 let keypadEnabled = false;
 let gameTime = 0;
 
+let pingInterval;
+
 // Element selectors
 const createGameButton = document.querySelector('.start-game__button--create');
 const joinGameForm = document.querySelector('.start-game__join');
+const gameCodeContainer = document.querySelector('.game-code');
 const gameCodeOutput = document.querySelector('.game-code__code');
 const startGameContainer = document.querySelector('.start-game');
 const gameContainer = document.querySelector('.game');
@@ -38,8 +46,8 @@ const matchmakeButton = document.querySelector('.start-game__button--matchmake')
 const overlay = document.querySelector('.overlay');
 const gameCodeCopy = document.querySelector('.game-code__copy');
 const gameCodeReveal = document.querySelector('.game-code__reveal');
-const lostConnectionContainer = document.querySelector('.lost-connection');
-const playerDisconnectedContainer = document.querySelector('.player-disconnected');
+const lostConnectionContainer = document.querySelector('.disconnected--lost');
+const playerDisconnectedContainer = document.querySelector('.disconnected--player');
 
 // Generate HTML
 const generateGameboard = (gameBoardElement) => {
@@ -97,7 +105,9 @@ keypadElements.forEach(keypadElement => {
 
 // Handle events from our websocket
 socket.addEventListener('open', () => {
-
+    pingInterval = setInterval(() => {
+        messageServer('ping');
+    }, 10000);
 });
 
 socket.addEventListener('message', ({data: message}) => {
@@ -105,12 +115,17 @@ socket.addEventListener('message', ({data: message}) => {
 
     const { method, success, data } = parsedMessage;
 
+    console.log(parsedMessage);
+
     if(!success) {
         handleError(data);
         return;
     }
 
     switch(method) {
+        case 'pong':
+            handlePong();
+            break;
         case 'set-player-number':
             handleSetPlayerNumber(data);
             break;
@@ -163,15 +178,21 @@ socket.addEventListener('message', ({data: message}) => {
         case 'player-disconnected':
             handlePlayerDisconnected(data);
             break;
+        case 'rematch-refused':
+            handleRematchRefused();
+            break;
+        case 'opponent-rematch-request':
+            handleOpponentRematchRequest();
+            break;
     }
 });
 
 socket.addEventListener('close', () => {
-    console.log('close');
+    console.log('Websocket closed');
 
-    // show some kind of disconnected message
+    clearInterval(pingInterval);
 
-    lostConnectionContainer.classList.add('lost-connection--visible');
+    lostConnectionContainer.classList.add('disconnected--visible');
 });
 
 socket.addEventListener('error', (e) => {
@@ -184,6 +205,10 @@ const handleError = ({message}) => {
     // console.log(message);
 
     startGameError.innerText = message;
+}
+
+const handlePong = () => {
+    // console.log('Server pong');
 }
 
 createGameButton.addEventListener('click', () => {
@@ -214,6 +239,8 @@ const handleJoinGame = () => {
         readyButtonContainer.classList.add('ready--visible');
     });
     playerTwoNameOutput.innerText = 'Player two';
+
+    gameCodeContainer.classList.add('game-code--hidden');
 }
 
 playerOneReadyButton.addEventListener('click', () => {
@@ -414,7 +441,7 @@ const handleGameEnded = ({stats}) => {
     playerOneStatsOutput.children[1].innerText = `points: ${stats.playerOnePoints}`;
     playerOneStatsOutput.children[2].innerText = `guesses: ${stats.playerOneGuesses}`;
     if (stats.playerOneInvalidGuesses.length > 0) {
-        playerOneStatsOutput.children[3].innerText = `invalid guesses: ${stats.playerOneInvalidGuesses.join(', ')}`;
+        playerOneStatsOutput.children[3].innerHTML = `invalid guesses: <span>${stats.playerOneInvalidGuesses.join(', ')}</span>`;
     } else {
         playerOneStatsOutput.children[3].innerText = '';
     }
@@ -428,7 +455,7 @@ const handleGameEnded = ({stats}) => {
     playerTwoStatsOutput.children[1].innerText = `points: ${stats.playerTwoPoints}`;
     playerTwoStatsOutput.children[2].innerText = `guesses: ${stats.playerTwoGuesses}`;
     if (stats.playerTwoInvalidGuesses.length > 0) {
-        playerTwoStatsOutput.children[3].innerText = `invalid guesses: ${stats.playerTwoInvalidGuesses.join(', ')}`;
+        playerTwoStatsOutput.children[3].innerHTML = `invalid guesses: <span>${stats.playerTwoInvalidGuesses.join(', ')}</span>`;
     } else {
         playerTwoStatsOutput.children[3].innerText = '';
     }
@@ -457,7 +484,7 @@ const handleGameEnded = ({stats}) => {
         }
     }
     statsModal.querySelector('.modal__winner').innerText = winText;
-    statsModal.querySelector('.modal__word').innerText = `The word was: ${stats.word.join('')}`;
+    statsModal.querySelector('.modal__word').innerHTML = `The word was: <span>${stats.word.join('')}</span>`;
 
     statsModal.classList.add('modal--visible');
     overlay.classList.add('overlay--active');
@@ -490,6 +517,17 @@ quitGameButton.addEventListener('click', () => {
     handleQuitGame();
 })
 
+const handleRematchRefused = () => {
+    rematchButton.disabled = true;
+    rematchButton.classList.remove('modal__button--active');
+    rematchButton.classList.add('modal__button--disabled');
+    rematchButton.innerText = 'Opponent left';
+}
+
+const handleOpponentRematchRequest = () => {
+    document.querySelector('.modal__text--opponent-rematch').classList.remove('modal__text--hidden');
+}
+
 const handleRematchGame = () => {
     handleCloseModal();
     disableKeypad();
@@ -517,7 +555,7 @@ const handleRematchGame = () => {
 
     rematchButton.classList.remove('modal__button--active');
     rematchButton.disabled = false;
-
+    document.querySelector('.modal__text--opponent-rematch').classList.add('modal__text--hidden');
     showReadyButtons();
 }
 
@@ -635,14 +673,18 @@ gameCodeReveal.addEventListener('click', () => {
 })
 
 const handlePlayerDisconnected = ({ word }) => {
-    playerDisconnectedContainer.classList.add('player-disconnected--visible');
+    playerDisconnectedContainer.classList.add('disconnected--visible');
+    const button = playerDisconnectedContainer.querySelector('.disconnected__button');
 
     if (word !== null) {
-        playerDisconnectedContainer.querySelector('.player-disconnected__button').addEventListener('click', e => {
-            e.target.innerText = word;
+        const wordOutput = playerDisconnectedContainer.querySelector('.disconnected__word');
+        button.addEventListener('click', () => {
+            button.classList.add('disconnected__button--hidden');
+            wordOutput.innerHTML = `The word was: <span>${word}</span>`;
+            wordOutput.classList.add('disconnected__word--visible');
         })
     } else {
-        playerDisconnectedContainer.querySelector('.player-disconnected__button').classList.add('player-disconnected__button--hidden');
+        button.classList.add('disconnected__button--hidden');
     }
 
 }

@@ -1,3 +1,4 @@
+//first modal is for player stats
 .modal {
     $root: &;
     $stats: #{$root}--stats;
@@ -36,6 +37,10 @@
         @include mobile() {
             font-size: 25px;
             line-height: 28px;
+        }
+
+        span {
+            text-transform: uppercase;
         }
     }
 
@@ -92,6 +97,14 @@
                 line-height: 23px;
             }
         }
+
+        &--hidden {
+            display: none;
+        }
+
+        &--opponent-rematch {
+            text-align: center;
+        }
     }
 
     &__buttons {
@@ -112,6 +125,113 @@
 
         &--active {
             background: green;
+        }
+
+        &--disabled {
+            background: $blueblack;
+
+            &:hover {
+                background: $blueblack;
+                cursor: default;
+            }
+        }
+    }
+}
+
+//player dc or server dc
+.disconnected {
+    $root: &;
+    $lost: #{$root}--lost;
+    $player: #{$root}--player;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    align-items: center;
+    justify-content: center;
+    display: none;
+    z-index: 2;
+
+    &--lost {
+
+    }
+
+    &--player {
+        
+    }
+
+    small {
+        @include p();
+        font-size: 14px;
+        line-height: 16px;
+        text-align: center;
+        margin: 0 0 20px 0;
+        width: 100%;
+        display: block;
+    }
+
+    &--visible {
+        display: flex;
+    }
+
+    &__top {
+        padding: 30px;
+
+        #{$lost} & {
+            padding: 40px 30px;
+        }
+    }
+
+    &__inner {
+        background-color: $white;
+        display: flex;
+        flex-direction: column;
+
+        #{$player} &,
+        #{$lost} & {
+            width: 90%;
+            max-width: 600px;
+        }
+    }
+
+    &__text {
+        @include p();
+        font-size: 28px;
+        line-height: 32px;
+        margin: 0 0 25px;
+        text-align: center;
+
+        #{$lost} & {
+            margin: 0;
+        }
+    }
+
+    &__word {
+        display: none;
+        font-size: 23px;
+        line-height: 26px;
+        margin: 0;
+        max-width: 170px;
+        margin: 0 auto;
+
+        span {
+            text-transform: uppercase;
+            font-size: 28px;
+        }
+
+        &--visible {
+            display: block;
+        }
+    }
+
+    &__button {
+        @include button();
+
+        &--hidden {
+            display: none;
         }
     }
 }
