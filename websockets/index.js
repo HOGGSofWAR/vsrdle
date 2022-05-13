@@ -9,7 +9,7 @@ const waitingForPlayerMessages = [
     'Attempting to find you a match',
     'Still waiting for another player...',
     'I hope we find you an opponent soon!',
-    `It seems it's a little quite here today...`,
+    `It seems it's a little quiet here today...`,
     'Why not try hosting a private game and invite a friend?'
 ];
 
@@ -606,7 +606,7 @@ module.exports = async(expressServer) => {
 
             publicMessageInverval = setInterval(() => {
                 messageIndex++;
-                if (messageIndex > waitingForPlayerMessages.length) {
+                if (messageIndex === waitingForPlayerMessages.length) {
                     messageIndex = 0;
                 }
                 const message = waitingForPlayerMessages[messageIndex];
