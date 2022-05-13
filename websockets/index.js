@@ -10,6 +10,10 @@ let playerWaiting = null;
 let totalGamesStarted = 0;
 let totalGamesCompleted = 0;
 
+let clientsConnected = 0;
+let clientsNotInGame = 0;
+let clientsInGame = 0;
+
 // Export this function to use in our server.js file
 module.exports = async(expressServer) => {
     // Create a websocket server
@@ -44,6 +48,9 @@ module.exports = async(expressServer) => {
         ws.socketId = short.generate();
 
         console.log(`${ws.socketId} connected`);
+        clientsConnected++;
+        clientsNotInGame++;
+        logConnected();
     };
 
     const handleMessage = (ws, message) => {
@@ -83,13 +90,15 @@ module.exports = async(expressServer) => {
 
     const handleClose = (ws) => {
         console.log(`${ws.socketId} disconnected`);
-
+        clientsConnected--;
+        
         if (playerWaiting === ws.socketId) {
             console.log(`${ws.socketId} has left the public match queue`);
             playerWaiting = null;
         }
-
+        
         if (ws.gameId) {
+            clientsInGame--;
             const game = findGame(ws.gameId);
             switch (game.status) {
                 case '0-waiting-for-player-two':
@@ -107,12 +116,20 @@ module.exports = async(expressServer) => {
                     break;
             }
             // remove it from the game array also - only if both players have left
+        } else {
+            clientsNotInGame--;
         }
+
+        logConnected();
 
     };
 
     // Create a new game object and add it to our games array - send it to the client
     const createGame = (ws) => {
+        clientsNotInGame--;
+        clientsInGame++;
+        logConnected();
+
         if (playerWaiting === ws.socketId) {
             playerWaiting = null;
         }
@@ -138,6 +155,10 @@ module.exports = async(expressServer) => {
 
     // Find a game object by id and update it with the new player - send to both clients
     const joinGame = (ws, { gameId }) => {
+        clientsNotInGame--;
+        clientsInGame++;
+        logConnected();
+
         if (playerWaiting === ws.socketId) {
             playerWaiting = null;
         }
@@ -556,6 +577,9 @@ module.exports = async(expressServer) => {
             console.log(`${ws.socketId} is waiting to join a public match`);
         } else {
             if (playerWaiting === ws.socketId) return;
+            clientsNotInGame = clientsNotInGame - 2;
+            clientsInGame = clientsInGame + 2;
+            logConnected();
 
             const playerWaitingSocket = getWsBySocketId(playerWaiting);
             console.log(`${ws.socketId} has joined a public match with ${playerWaiting}`);
@@ -617,5 +641,9 @@ module.exports = async(expressServer) => {
         }
 
         return points;
+    }
+
+    const logConnected = () => {
+        console.log(`Currently connected: ${clientsConnected} || Currently not in game: ${clientsNotInGame} || Currently playing: ${clientsInGame}`);
     }
 }
